@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition template="../template.xhtml">
+	<ui:define name="conteudo">
+		<center>
+			<h1>Cadastro de Livro</h1>
+
+			<h:messages style="color:red" />
+			<h:form>
+				<h:panelGrid columns="2">
+					<h:outputLabel value="Nome" />
+					<h:inputText value="#{livroController.livro.nome}" />
+
+					<h:outputLabel value="Autor: " />
+					<h:inputText value="#{livroController.livro.autor}" />
+
+					<h:outputLabel value="Editora: " />
+					<h:inputText value="#{livroController.livro.editora}" />
+
+					<h:outputLabel value="Valor:" styleClass="control-label" />
+					<h:inputText id="itLogin" value="#{livroController.livro.valor}"
+						styleClass="form-control">
+						<f:convertNumber locale="pt_BR" pattern="###0.00" />
+					</h:inputText>
+					<h:message for="itLogin	" style="color:red" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="4">
+					<h:commandButton value="Incluir"
+						disabled="#{livroController.livro.id != null}"
+						actionListener="#{livroController.incluir}" />
+
+					<h:commandButton value="Alterar"
+						disabled="#{livroController.livro.id == null}"
+						actionListener="#{livroController.alterar}" />
+
+					<h:commandButton value="Limpar"
+						actionListener="#{livroController.limpar}" />
+				</h:panelGrid>
+			</h:form>
+
+			<h:form>
+				<h:dataTable value="#{livroController.listLivro}" var="obj">
+					<h:column>
+						<f:facet name="header">Id</f:facet>
+						<h:outputLabel value="#{obj.id}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">Nome</f:facet>
+						<h:commandLink value="#{obj.nome}"
+							actionListener="#{livroController.editar(obj.id)}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">Autor</f:facet>
+						<h:commandLink value="#{obj.autor}"
+							actionListener="#{livroController.editar(obj.id)}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">Editora</f:facet>
+						<h:commandLink value="#{obj.editora}"
+							actionListener="#{livroController.editar(obj.id)}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">Valor</f:facet>
+						<h:outputLabel value="#{obj.valor}"
+							actionListener="#{livroController.editar(obj.id)}">
+							<f:convertNumber locale="pt_BR" currencySymbol="R$"
+								type="currency" />
+						</h:outputLabel>
+					</h:column>
+				</h:dataTable>
+			</h:form>
+		</center>
+	</ui:define>
+</ui:composition>
+</html>

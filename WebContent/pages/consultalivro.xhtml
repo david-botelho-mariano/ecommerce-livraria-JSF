@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition template="../template.xhtml">
+	<ui:define name="conteudo">
+		<div class="container">
+			<div class="navbar navbar-inverse">
+				<div class="navbar-brand titulo-consulta"
+					style="width: 100%; text-align: center;">Consulta de Livro</div>
+			</div>
+			<div id="login-row"
+				class="row justify-content-center align-items-center">
+				<h:messages style="color:red" />
+				<h:form>
+					<h:panelGrid columns="3">
+
+						<h:outputLabel value="Nome do Livro: " class="text-info" />
+						<h:inputText value="#{consultaLivroController.nome}"
+							class="form-control" />
+						<h:form>
+							<h:commandButton value="Pesquisar"
+								actionListener="#{consultaLivroController.pesquisar}"
+								class="btn btn-primary">
+								<f:ajax execute="panelForm" render="@all" />
+							</h:commandButton>
+							<h:commandButton value="Cadastrar Livro"
+								action="#{consultaLivroController.cadastrarLivro}"
+								class="btn btn-success" />
+						</h:form>
+					</h:panelGrid>
+
+				</h:form>
+			</div>
+			<h:form>
+				<h:dataTable id="panelForm"
+					value="#{consultaLivroController.listaLivro}" var="obj"
+					style="margin-top:60px;" class="table table-striped table-bordered">
+					<h:column>
+						<f:facet name="header">Id</f:facet>
+						<h:outputLabel value="#{obj.id}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">Nome</f:facet>
+						<h:commandLink value="#{obj.nome}"
+							actionListener="#{consultaLivroController.editar(obj.id)}">
+							<f:ajax execute="@this" render="@form" />
+						</h:commandLink>
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">Autor</f:facet>
+						<h:commandLink value="#{obj.autor}"
+							actionListener="#{consultaLivroController.editar(obj.id)}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">Editora</f:facet>
+						<h:commandLink value="#{obj.editora}"
+							actionListener="#{consultaLivroController.editar(obj.id)}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Ações</f:facet>
+						<h:commandButton value="Editar"
+							actionListener="#{consultaLivroController.editar(obj.id)}"
+							class="btn btn-warning" />
+						<h:commandButton value="Excluir"
+							disabled="#{livroController.livro.id != null}"
+							actionListener="#{consultaLivroController.excluir(obj.id)}"
+							class="btn btn-danger">
+							<f:ajax execute="panelForm" render="@all" />
+						</h:commandButton>
+					</h:column>
+				</h:dataTable>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

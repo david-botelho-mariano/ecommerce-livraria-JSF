@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://java.sun.com/jsf/">
+
+<h:head>
+	<meta charset="utf-8" name="viewport"
+		content="width=device-width, initial-scale=1"
+		http-equiv="X-UA-Conpatible" />
+
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="template.css" />
+	<h:outputStylesheet library="css" name="estilo.css" />
+</h:head>
+
+<h:body>
+	<div class="wrapper">
+		<div class="box navbar navbar-inverse header">
+			<h1>.: Livraria :.</h1>
+			<div style="text-align: right;">
+				<h:form>
+					<h:outputLabel value="Olá #{templateController.usuarioLogado.nome}" />
+					<h:commandLink value=" (Sair)"
+						action="#{templateController.encerrarSessao}" style="color:white" />
+				</h:form>
+			</div>
+		</div>
+		<div class="box sidebar" style="text-align: center;">
+			<ui:insert name="menu">
+				<h1>Menu</h1>
+				<h:form>
+					<h:commandLink value="Consulta Usuarios"
+						disabled="#{templateController.usuarioLogado.perfil.value == 1}"
+						action="#{templateController.redirecionar('/Livraria/faces/pages/consultausuario.xhtml')}" />
+					<br />
+					<h:commandLink value="Consulta Livro"
+						disabled="#{templateController.usuarioLogado.perfil.value == 1}"
+						action="#{templateController.redirecionar('/Livraria/faces/pages/consultalivro.xhtml')}" />
+					<br />
+					<h:commandLink value="Venda Livro"
+						action="#{templateController.redirecionar('/Livraria/faces/pages/vendalivro.xhtml')}" />
+					<br />
+					<h:commandLink
+						value="Carrinho (#{templateController.qtdItensCarrinho})"
+						action="#{templateController.redirecionar('/Livraria/faces/pages/carrinho.xhtml')}" />
+					<br />
+					<h:commandLink value="Histórico de Venda"
+						action="#{templateController.redirecionar('/Livraria/faces/pages/historico.xhtml')}" />
+					<br />
+
+				</h:form>
+			</ui:insert>
+		</div>
+
+		<div class="box content">
+			<br />
+			<ui:insert name="conteudo">
+				<center>
+					<h:outputLabel value="Seja Bem-vindo #{templateController.usuarioLogado.nome}" />
+				</center>
+			</ui:insert>
+		</div>
+
+		<div class="box footer" style="text-align: center;">
+			<h:outputText value="2019 - UNITINS - Todos os direitos reservados." />
+		</div>
+	</div>
+</h:body>
+</html>
